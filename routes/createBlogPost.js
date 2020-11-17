@@ -41,7 +41,11 @@ router.get("/submit", (req, res) => {
   blogPosts
     .doc(idFromTitle)
     .set(queryParam)
-    .then(() => res.send("Submission Succeeded"))
+    .then(() =>
+      res.send(
+        `Submission Succeeded<br /><a href="/create">Create another post</a>`
+      )
+    )
     .catch((e) => res.send(`Submission Failed: ${e}`));
 });
 

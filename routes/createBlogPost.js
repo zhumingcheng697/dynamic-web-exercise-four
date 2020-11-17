@@ -24,7 +24,7 @@ const form = `
       margin: 5px 0;
     }
   </style>
-  <form>
+  <form action="/create/submit">
     <input type="text" name="title" placeholder="Title" />
     <input type="text" name="author" placeholder="Author" />
     <input type="text" name="body" placeholder="Body" />
@@ -33,5 +33,16 @@ const form = `
 `;
 
 router.get("/", (req, res) => res.send(form));
+
+router.get("/submit", (req, res) => {
+  const queryParam = req.query;
+  const idFromTitle = queryParam.title.replace(/\s+/g, "-").toLowerCase();
+
+  blogPosts
+    .doc(idFromTitle)
+    .set(queryParam)
+    .then(() => res.send("Submission Succeeded"))
+    .catch((e) => res.send(`Submission Failed: ${e}`));
+});
 
 module.exports = router;
